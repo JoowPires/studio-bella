@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ClockIcon, MapPinIcon, CalendarIcon } from '../Icons/Icons';
-import useWindowSize from '../hooks/useWindowSize';
+import useWindowSize from '../../hooks/useWindowSize';
 import './Schedule.css';
 
 const scheduleCards = [

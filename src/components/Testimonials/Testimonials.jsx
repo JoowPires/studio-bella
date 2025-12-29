@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { StarIcon } from '../Icons/Icons';
-import useWindowSize from '../hooks/useWindowSize';
+import useWindowSize from '../../hooks/useWindowSize';
 import './Testimonials.css';
 
 const testimonialsData = [

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { SparkleIcon, EyeIcon, PaintBrushIcon, HeartIcon, ArrowRightIcon } from '../Icons/Icons';
-import useWindowSize from '../hooks/useWindowSize';
+import useWindowSize from '../../hooks/useWindowSize';
 import './Services.css';
 
 const servicesData = [

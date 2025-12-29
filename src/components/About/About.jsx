@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { CheckBadgeIcon, HeartIcon, StarIcon, FaceSmileIcon } from '../Icons/Icons';
-import useWindowSize from '../hooks/useWindowSize';
+import useWindowSize from '../../hooks/useWindowSize';
 import './About.css';
 
 const features = [

@@ -119,9 +119,11 @@
   }
 
   .services-grid {
-    display: flex;
-    grid-template-columns: none;
-    overflow-x: auto;
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     gap: 16px;
@@ -139,7 +141,8 @@
   }
 
   .service-card {
-    flex: 0 0 85%;
+    flex: 0 0 85% !important;
+    min-width: 85% !important;
     scroll-snap-align: center;
     scroll-snap-stop: always;
   }
