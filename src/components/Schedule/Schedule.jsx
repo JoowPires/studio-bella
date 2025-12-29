@@ -1,8 +1,51 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { ClockIcon, MapPinIcon, CalendarIcon } from '../Icons/Icons';
 import './Schedule.css';
 
+const scheduleCards = [
+  {
+    id: 1,
+    icon: ClockIcon,
+    title: 'Horário de Atendimento',
+    type: 'schedule'
+  },
+  {
+    id: 2,
+    icon: MapPinIcon,
+    title: 'Localização',
+    type: 'location'
+  },
+  {
+    id: 3,
+    icon: CalendarIcon,
+    title: 'Agende Agora',
+    type: 'cta'
+  }
+];
+
 const Schedule = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef(null);
+
+  const handleScroll = () => {
+    if (sliderRef.current) {
+      const scrollLeft = sliderRef.current.scrollLeft;
+      const slideWidth = sliderRef.current.offsetWidth;
+      const newActiveSlide = Math.round(scrollLeft / slideWidth);
+      setActiveSlide(newActiveSlide);
+    }
+  };
+
+  const scrollToSlide = (index) => {
+    if (sliderRef.current) {
+      const slideWidth = sliderRef.current.offsetWidth;
+      sliderRef.current.scrollTo({
+        left: slideWidth * index,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section className="schedule" id="horarios">
       <div className="schedule-content container">
@@ -14,7 +57,11 @@ const Schedule = () => {
           </p>
         </div>
 
-        <div className="schedule-grid">
+        <div
+          className="schedule-grid"
+          ref={sliderRef}
+          onScroll={handleScroll}
+        >
           <div className="schedule-card">
             <div className="schedule-card-icon">
               <ClockIcon size={32} />
@@ -53,8 +100,8 @@ const Schedule = () => {
             </div>
             <h3>Agende Agora</h3>
             <p>Garanta seu horário de forma rápida e prática.</p>
-            <a 
-              href="https://wa.me/5599999999999" 
+            <a
+              href="https://wa.me/5599999999999"
               className="btn btn-dark"
               target="_blank"
               rel="noopener noreferrer"
@@ -62,6 +109,17 @@ const Schedule = () => {
               Agendar
             </a>
           </div>
+        </div>
+
+        <div className="schedule-slider-dots">
+          {scheduleCards.map((_, index) => (
+            <button
+              key={index}
+              className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+              onClick={() => scrollToSlide(index)}
+              aria-label={`Ir para card ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>
