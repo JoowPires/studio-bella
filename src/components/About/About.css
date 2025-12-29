@@ -169,6 +169,26 @@
   }
 
   .about-features {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .about-features::-webkit-scrollbar {
+    display: none;
+  }
+
+  .feature-item {
+    flex: 0 0 85%;
+    min-width: 85%;
+    scroll-snap-align: center;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 12px;
   }
 }
