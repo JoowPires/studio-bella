@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { SparkleIcon, EyeIcon, PaintBrushIcon, HeartIcon, ArrowRightIcon } from '../Icons/Icons';
+import useWindowSize from '../hooks/useWindowSize';
 import './Services.css';
 
 const servicesData = [
@@ -69,9 +70,11 @@ const ServiceCard = ({ service }) => {
 const Services = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef(null);
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
 
   const handleScroll = () => {
-    if (sliderRef.current) {
+    if (sliderRef.current && isMobile) {
       const scrollLeft = sliderRef.current.scrollLeft;
       const slideWidth = sliderRef.current.offsetWidth;
       const newActiveSlide = Math.round(scrollLeft / slideWidth);
@@ -80,7 +83,7 @@ const Services = () => {
   };
 
   const scrollToSlide = (index) => {
-    if (sliderRef.current) {
+    if (sliderRef.current && isMobile) {
       const slideWidth = sliderRef.current.offsetWidth;
       sliderRef.current.scrollTo({
         left: slideWidth * index,
@@ -102,24 +105,26 @@ const Services = () => {
 
         <div
           className="services-grid"
-          ref={sliderRef}
-          onScroll={handleScroll}
+          ref={isMobile ? sliderRef : null}
+          onScroll={isMobile ? handleScroll : undefined}
         >
           {servicesData.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}
         </div>
 
-        <div className="slider-dots">
-          {servicesData.map((_, index) => (
-            <button
-              key={index}
-              className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
-              onClick={() => scrollToSlide(index)}
-              aria-label={`Ir para serviço ${index + 1}`}
-            />
-          ))}
-        </div>
+        {isMobile && (
+          <div className="slider-dots">
+            {servicesData.map((_, index) => (
+              <button
+                key={index}
+                className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+                onClick={() => scrollToSlide(index)}
+                aria-label={`Ir para serviço ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { CheckBadgeIcon, HeartIcon, StarIcon, FaceSmileIcon } from '../Icons/Icons';
+import useWindowSize from '../hooks/useWindowSize';
 import './About.css';
 
 const features = [
@@ -28,9 +29,11 @@ const features = [
 const About = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef(null);
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
 
   const handleScroll = () => {
-    if (sliderRef.current) {
+    if (sliderRef.current && isMobile) {
       const scrollLeft = sliderRef.current.scrollLeft;
       const slideWidth = sliderRef.current.offsetWidth;
       const newActiveSlide = Math.round(scrollLeft / slideWidth);
@@ -39,7 +42,7 @@ const About = () => {
   };
 
   const scrollToSlide = (index) => {
-    if (sliderRef.current) {
+    if (sliderRef.current && isMobile) {
       const slideWidth = sliderRef.current.offsetWidth;
       sliderRef.current.scrollTo({
         left: slideWidth * index,
@@ -91,8 +94,8 @@ const About = () => {
 
             <div
               className="about-features"
-              ref={sliderRef}
-              onScroll={handleScroll}
+              ref={isMobile ? sliderRef : null}
+              onScroll={isMobile ? handleScroll : undefined}
             >
               {features.map((feature, index) => {
                 const IconComponent = feature.icon;
@@ -110,16 +113,18 @@ const About = () => {
               })}
             </div>
 
-            <div className="features-slider-dots">
-              {features.map((_, index) => (
-                <button
-                  key={index}
-                  className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
-                  onClick={() => scrollToSlide(index)}
-                  aria-label={`Ir para característica ${index + 1}`}
-                />
-              ))}
-            </div>
+            {isMobile && (
+              <div className="features-slider-dots">
+                {features.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+                    onClick={() => scrollToSlide(index)}
+                    aria-label={`Ir para característica ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

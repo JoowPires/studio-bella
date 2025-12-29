@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ClockIcon, MapPinIcon, CalendarIcon } from '../Icons/Icons';
+import useWindowSize from '../hooks/useWindowSize';
 import './Schedule.css';
 
 const scheduleCards = [
@@ -26,9 +27,11 @@ const scheduleCards = [
 const Schedule = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef(null);
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
 
   const handleScroll = () => {
-    if (sliderRef.current) {
+    if (sliderRef.current && isMobile) {
       const scrollLeft = sliderRef.current.scrollLeft;
       const slideWidth = sliderRef.current.offsetWidth;
       const newActiveSlide = Math.round(scrollLeft / slideWidth);
@@ -37,7 +40,7 @@ const Schedule = () => {
   };
 
   const scrollToSlide = (index) => {
-    if (sliderRef.current) {
+    if (sliderRef.current && isMobile) {
       const slideWidth = sliderRef.current.offsetWidth;
       sliderRef.current.scrollTo({
         left: slideWidth * index,
@@ -59,8 +62,8 @@ const Schedule = () => {
 
         <div
           className="schedule-grid"
-          ref={sliderRef}
-          onScroll={handleScroll}
+          ref={isMobile ? sliderRef : null}
+          onScroll={isMobile ? handleScroll : undefined}
         >
           <div className="schedule-card">
             <div className="schedule-card-icon">
@@ -111,16 +114,18 @@ const Schedule = () => {
           </div>
         </div>
 
-        <div className="schedule-slider-dots">
-          {scheduleCards.map((_, index) => (
-            <button
-              key={index}
-              className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
-              onClick={() => scrollToSlide(index)}
-              aria-label={`Ir para card ${index + 1}`}
-            />
-          ))}
-        </div>
+        {isMobile && (
+          <div className="schedule-slider-dots">
+            {scheduleCards.map((_, index) => (
+              <button
+                key={index}
+                className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+                onClick={() => scrollToSlide(index)}
+                aria-label={`Ir para card ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

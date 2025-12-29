@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { StarIcon } from '../Icons/Icons';
+import useWindowSize from '../hooks/useWindowSize';
 import './Testimonials.css';
 
 const testimonialsData = [
@@ -54,9 +55,11 @@ const TestimonialCard = ({ testimonial }) => {
 const Testimonials = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef(null);
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
 
   const handleScroll = () => {
-    if (sliderRef.current) {
+    if (sliderRef.current && isMobile) {
       const scrollLeft = sliderRef.current.scrollLeft;
       const slideWidth = sliderRef.current.offsetWidth;
       const newActiveSlide = Math.round(scrollLeft / slideWidth);
@@ -65,7 +68,7 @@ const Testimonials = () => {
   };
 
   const scrollToSlide = (index) => {
-    if (sliderRef.current) {
+    if (sliderRef.current && isMobile) {
       const slideWidth = sliderRef.current.offsetWidth;
       sliderRef.current.scrollTo({
         left: slideWidth * index,
@@ -87,24 +90,26 @@ const Testimonials = () => {
 
         <div
           className="testimonials-slider"
-          ref={sliderRef}
-          onScroll={handleScroll}
+          ref={isMobile ? sliderRef : null}
+          onScroll={isMobile ? handleScroll : undefined}
         >
           {testimonialsData.map((testimonial) => (
             <TestimonialCard key={testimonial.id} testimonial={testimonial} />
           ))}
         </div>
 
-        <div className="slider-dots">
-          {testimonialsData.map((_, index) => (
-            <button
-              key={index}
-              className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
-              onClick={() => scrollToSlide(index)}
-              aria-label={`Ir para depoimento ${index + 1}`}
-            />
-          ))}
-        </div>
+        {isMobile && (
+          <div className="slider-dots">
+            {testimonialsData.map((_, index) => (
+              <button
+                key={index}
+                className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+                onClick={() => scrollToSlide(index)}
+                aria-label={`Ir para depoimento ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
