@@ -103,6 +103,10 @@
   transform: translateX(4px);
 }
 
+.slider-dots {
+  display: none;
+}
+
 @media (max-width: 1200px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -111,10 +115,58 @@
 
 @media (max-width: 768px) {
   .services {
-    padding: 100px 24px;
+    padding: 100px 24px 80px;
   }
 
   .services-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 16px;
+    padding: 0 4px 20px;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .services-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .service-card {
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+  }
+
+  .slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0.3;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+
+  .slider-dot.active {
+    opacity: 1;
+    width: 24px;
+    border-radius: 4px;
   }
 }

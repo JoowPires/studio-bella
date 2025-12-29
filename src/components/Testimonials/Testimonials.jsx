@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { StarIcon } from '../Icons/Icons';
 import './Testimonials.css';
 
@@ -52,6 +52,28 @@ const TestimonialCard = ({ testimonial }) => {
 };
 
 const Testimonials = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef(null);
+
+  const handleScroll = () => {
+    if (sliderRef.current) {
+      const scrollLeft = sliderRef.current.scrollLeft;
+      const slideWidth = sliderRef.current.offsetWidth;
+      const newActiveSlide = Math.round(scrollLeft / slideWidth);
+      setActiveSlide(newActiveSlide);
+    }
+  };
+
+  const scrollToSlide = (index) => {
+    if (sliderRef.current) {
+      const slideWidth = sliderRef.current.offsetWidth;
+      sliderRef.current.scrollTo({
+        left: slideWidth * index,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section className="testimonials" id="depoimentos">
       <div className="container">
@@ -63,9 +85,24 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="testimonials-slider">
+        <div
+          className="testimonials-slider"
+          ref={sliderRef}
+          onScroll={handleScroll}
+        >
           {testimonialsData.map((testimonial) => (
             <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+          ))}
+        </div>
+
+        <div className="slider-dots">
+          {testimonialsData.map((_, index) => (
+            <button
+              key={index}
+              className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+              onClick={() => scrollToSlide(index)}
+              aria-label={`Ir para depoimento ${index + 1}`}
+            />
           ))}
         </div>
       </div>

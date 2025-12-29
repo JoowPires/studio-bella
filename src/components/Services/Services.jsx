@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { SparkleIcon, EyeIcon, PaintBrushIcon, HeartIcon, ArrowRightIcon } from '../Icons/Icons';
 import './Services.css';
 
@@ -67,6 +67,28 @@ const ServiceCard = ({ service }) => {
 };
 
 const Services = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef(null);
+
+  const handleScroll = () => {
+    if (sliderRef.current) {
+      const scrollLeft = sliderRef.current.scrollLeft;
+      const slideWidth = sliderRef.current.offsetWidth;
+      const newActiveSlide = Math.round(scrollLeft / slideWidth);
+      setActiveSlide(newActiveSlide);
+    }
+  };
+
+  const scrollToSlide = (index) => {
+    if (sliderRef.current) {
+      const slideWidth = sliderRef.current.offsetWidth;
+      sliderRef.current.scrollTo({
+        left: slideWidth * index,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section className="services" id="servicos">
       <div className="container">
@@ -78,9 +100,24 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="services-grid">
+        <div
+          className="services-grid"
+          ref={sliderRef}
+          onScroll={handleScroll}
+        >
           {servicesData.map((service) => (
             <ServiceCard key={service.id} service={service} />
+          ))}
+        </div>
+
+        <div className="slider-dots">
+          {servicesData.map((_, index) => (
+            <button
+              key={index}
+              className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+              onClick={() => scrollToSlide(index)}
+              aria-label={`Ir para serviço ${index + 1}`}
+            />
           ))}
         </div>
       </div>
