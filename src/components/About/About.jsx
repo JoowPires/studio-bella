@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { CheckBadgeIcon, HeartIcon, StarIcon, FaceSmileIcon } from '../Icons/Icons';
+import useWindowSize from '../../hooks/useWindowSize';
 import './About.css';
 
 const features = [
@@ -26,6 +27,30 @@ const features = [
 ];
 
 const About = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef(null);
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
+
+  const handleScroll = () => {
+    if (sliderRef.current && isMobile) {
+      const scrollLeft = sliderRef.current.scrollLeft;
+      const slideWidth = sliderRef.current.offsetWidth;
+      const newActiveSlide = Math.round(scrollLeft / slideWidth);
+      setActiveSlide(newActiveSlide);
+    }
+  };
+
+  const scrollToSlide = (index) => {
+    if (sliderRef.current && isMobile) {
+      const slideWidth = sliderRef.current.offsetWidth;
+      sliderRef.current.scrollTo({
+        left: slideWidth * index,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <section className="about" id="sobre">
       <div className="about-pattern"></div>
@@ -33,15 +58,15 @@ const About = () => {
         <div className="about-grid">
           <div className="about-images">
             <div className="about-image-main">
-              <img 
-                src="https://images.unsplash.com/photo-1522337094846-8a818192de1f?w=800&q=80" 
-                alt="Studio Bella" 
+              <img
+                src="https://images.unsplash.com/photo-1522337094846-8a818192de1f?w=800&q=80"
+                alt="Studio Bella"
               />
             </div>
             <div className="about-image-secondary">
-              <img 
-                src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400&q=80" 
-                alt="Atendimento" 
+              <img
+                src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400&q=80"
+                alt="Atendimento"
               />
             </div>
             <div className="about-experience">
@@ -57,17 +82,21 @@ const About = () => {
             </div>
 
             <p className="about-text">
-              Somos um espaço dedicado ao cuidado e bem-estar feminino. Com mais de 8 anos 
-              de experiência, nos especializamos em tratamentos que valorizam a beleza 
+              Somos um espaço dedicado ao cuidado e bem-estar feminino. Com mais de 8 anos
+              de experiência, nos especializamos em tratamentos que valorizam a beleza
               natural de cada cliente.
             </p>
 
             <p className="about-text">
-              Nossa missão é proporcionar uma experiência única de autocuidado, em um 
+              Nossa missão é proporcionar uma experiência única de autocuidado, em um
               ambiente acolhedor e com profissionais qualificados.
             </p>
 
-            <div className="about-features">
+            <div
+              className="about-features"
+              ref={isMobile ? sliderRef : null}
+              onScroll={isMobile ? handleScroll : undefined}
+            >
               {features.map((feature, index) => {
                 const IconComponent = feature.icon;
                 return (
@@ -83,6 +112,19 @@ const About = () => {
                 );
               })}
             </div>
+
+            {isMobile && (
+              <div className="features-slider-dots">
+                {features.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+                    onClick={() => scrollToSlide(index)}
+                    aria-label={`Ir para característica ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
