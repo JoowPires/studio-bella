@@ -130,8 +130,11 @@
   }
 
   .schedule-grid {
-    display: flex;
-    overflow-x: auto;
+    display: flex !important;
+    flex-direction: row !important;
+    grid-template-columns: none !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     gap: 16px;
@@ -145,8 +148,9 @@
   }
 
   .schedule-card {
-    flex: 0 0 85%;
-    min-width: 85%;
+    flex: 0 0 85% !important;
+    min-width: 85% !important;
+    max-width: 85% !important;
     scroll-snap-align: center;
   }
 }

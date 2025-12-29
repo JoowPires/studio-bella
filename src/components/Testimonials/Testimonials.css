@@ -88,8 +88,11 @@
   }
 
   .testimonials-slider {
-    display: flex;
-    overflow-x: auto;
+    display: flex !important;
+    flex-direction: row !important;
+    grid-template-columns: none !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     gap: 16px;
@@ -103,8 +106,9 @@
   }
 
   .testimonial-card {
-    flex: 0 0 90%;
-    min-width: 90%;
+    flex: 0 0 90% !important;
+    min-width: 90% !important;
+    max-width: 90% !important;
     scroll-snap-align: center;
   }
 }
