@@ -1,0 +1,132 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  transition: var(--transition-smooth);
+}
+
+.navbar.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 12px 0;
+  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: var(--transition-smooth);
+}
+
+.navbar.scrolled .navbar-logo {
+  color: var(--charcoal);
+}
+
+.navbar-logo span {
+  color: var(--gold);
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.navbar-menu a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  position: relative;
+  transition: var(--transition-smooth);
+}
+
+.navbar.scrolled .navbar-menu a {
+  color: var(--text-medium);
+}
+
+.navbar-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: var(--transition-smooth);
+}
+
+.navbar-menu a:hover::after {
+  width: 100%;
+}
+
+.navbar-cta {
+  padding: 12px 28px !important;
+  background: var(--gold) !important;
+  color: var(--charcoal) !important;
+  border-radius: 30px;
+}
+
+.navbar-cta:hover {
+  transform: translateY(-2px);
+}
+
+.navbar-cta::after {
+  display: none !important;
+}
+
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.mobile-menu-btn span {
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  transition: var(--transition-smooth);
+}
+
+.navbar.scrolled .mobile-menu-btn span {
+  background: var(--charcoal);
+}
+
+@media (max-width: 992px) {
+  .navbar-menu {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 24px;
+  }
+}

@@ -1,0 +1,131 @@
+.schedule {
+  padding: 140px 40px;
+  background: var(--charcoal);
+  position: relative;
+  overflow: hidden;
+}
+
+.schedule::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(198, 169, 98, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(198, 169, 98, 0.05) 0%, transparent 40%);
+}
+
+.schedule-content {
+  position: relative;
+  z-index: 2;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 60px;
+}
+
+.schedule-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 40px;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.schedule-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(198, 169, 98, 0.3);
+  transform: translateY(-8px);
+}
+
+.schedule-card-icon {
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  color: var(--white);
+}
+
+.schedule-card-icon.dark {
+  background: var(--charcoal);
+}
+
+.schedule-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.schedule-times {
+  list-style: none;
+}
+
+.schedule-times li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.95rem;
+}
+
+.schedule-times li:last-child {
+  border-bottom: none;
+}
+
+.schedule-day {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.schedule-time {
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.location-address {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.8;
+}
+
+.location-address strong {
+  color: var(--white);
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.schedule-card.cta-card {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+  border: none;
+}
+
+.schedule-card.cta-card h3 {
+  color: var(--charcoal);
+}
+
+.schedule-card.cta-card p {
+  color: rgba(26, 26, 26, 0.7);
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 992px) {
+  .schedule-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .schedule {
+    padding: 100px 24px;
+  }
+}
